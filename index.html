@@ -23,7 +23,6 @@
       padding: 16px;
       position: relative;
 
-      /* Peaceful mental health background – replace with your image */
       background-image: url("background.jpg");
       background-size: cover;
       background-position: center;
@@ -51,33 +50,36 @@
       border: 1px solid rgba(255, 255, 255, 0.16);
     }
 
-    .logo-placeholder {
-      width: 120px;
-      height: 120px;
-      margin: 0 auto 24px;
-      border-radius: 9999px;
-      border: 2px dashed #13265C;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      background: #ffffff; 
-      color: #13265C;
-      font-size: 0.85rem;
-      padding: 8px;
-      overflow: hidden;
-    }
+  .logo-placeholder {
+  width: 140px;
+  height: 140px;
+  margin: 0 auto 24px;
+  border-radius: 50%;
+  border: 0; /* no border */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #ffffff;
+  padding: 12px;
+  overflow: hidden;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15); /* subtle premium shadow */
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.logo-placeholder:hover {
+  transform: scale(1.15);
+  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.22);
+}
 
     .logo-placeholder img {
       max-width: 100%;
       max-height: 100%;
-      display: block;
       object-fit: contain;
     }
 
     h1 {
       font-size: 1.8rem;
       margin-bottom: 8px;
-      letter-spacing: 0.03em;
       color: #ffffff;
     }
 
@@ -103,7 +105,7 @@
       width: 8px;
       height: 8px;
       border-radius: 9999px;
-      background: #22c55e; 
+      background: #22c55e;
       box-shadow: 0 0 0 6px rgba(34, 197, 94, 0.25);
     }
 
@@ -141,7 +143,6 @@
     .contact-details p {
       font-size: 0.9rem;
       margin-bottom: 4px;
-      color: #e5e7eb;
     }
 
     .contact-label {
@@ -169,31 +170,61 @@
 <body>
   <div class="card">
 
+    <!-- LOGO -->
     <div class="logo-placeholder">
       <img src="al-shifaa-logo.png" alt="Al Shifaa Care Home Limited Logo">
     </div>
 
+    <!-- BADGE -->
     <div class="badge">
       <span class="badge-dot"></span>
       <span>Website Under Construction</span>
     </div>
 
+    <!-- TITLE -->
     <h1>Al Shifaa Care Home Limited</h1>
     <p class="tagline">A peaceful space for compassionate mental health care.</p>
 
+    <!-- MESSAGE -->
     <p class="message">
       Our full website is being prepared with care to reflect the calm, dignity and support
       we aim to offer every resident and family. In the meantime, you can reach us using the
       contact details below. We look forward to connecting with you.
     </p>
 
+    <!-- CONTACT BLOCK -->
     <div class="contact-block">
 
+      <!-- LEFT COLUMN -->
       <div class="contact-details">
         <div class="contact-heading">Contact</div>
+
         <p>
           <span class="contact-label">Phone:</span>
           <a href="tel:+254718937074">+254 718 937074</a>
         </p>
+
         <p>
-          <span class="conta
+          <span class="contact-label">Email:</span>
+          <a href="mailto:serve@alshifaa.co.ke">serve@alshifaa.co.ke</a>
+        </p>
+      </div>
+
+      <!-- RIGHT COLUMN -->
+      <div class="contact-details">
+        <div class="contact-heading">Address</div>
+
+        <p>Al Shifaa Care Home Limited</p>
+        <p>233 Owashika Road, Convent Dr, James Gitchuru Road</p>
+        <p>Lavington, Nairobi, Kenya</p>
+      </div>
+
+    </div>
+
+    <p class="footer-note">
+      For urgent enquiries, please call or email us directly. May you be granted ease, peace and healing.
+    </p>
+
+  </div>
+</body>
+</html>
