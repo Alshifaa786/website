@@ -34,7 +34,8 @@
       content: "";
       position: fixed;
       inset: 0;
-      background: rgba(15, 23, 42, 0.65);
+      /* Deep navy overlay to match logo */
+      background: rgba(19, 38, 92, 0.75); /* #13265C with transparency */
       z-index: 0;
     }
 
@@ -45,10 +46,11 @@
       width: 100%;
       padding: 32px 24px;
       border-radius: 24px;
-      background: rgba(15, 23, 42, 0.7);
+      /* Navy glass card */
+      background: rgba(19, 38, 92, 0.95);
       backdrop-filter: blur(16px);
       box-shadow: 0 24px 60px rgba(0, 0, 0, 0.45);
-      border: 1px solid rgba(148, 163, 184, 0.35);
+      border: 1px solid rgba(255, 255, 255, 0.16);
     }
 
     .logo-placeholder {
@@ -56,12 +58,12 @@
       height: 120px;
       margin: 0 auto 24px;
       border-radius: 9999px;
-      border: 2px dashed rgba(148, 163, 184, 0.7);
+      border: 2px dashed #13265C;           /* navy from logo */
       display: flex;
       align-items: center;
       justify-content: center;
-      background: rgba(15, 23, 42, 0.8);
-      color: #cbd5f5;
+      background: #ffffff;                   /* white so transparent logo shows clearly */
+      color: #13265C;
       font-size: 0.85rem;
       padding: 8px;
       overflow: hidden;
@@ -78,11 +80,12 @@
       font-size: 1.8rem;
       margin-bottom: 8px;
       letter-spacing: 0.03em;
+      color: #ffffff;
     }
 
     .tagline {
       font-size: 0.95rem;
-      color: #cbd5f5;
+      color: #e0e7ff; /* soft light blue */
       margin-bottom: 24px;
     }
 
@@ -93,8 +96,9 @@
       font-size: 0.8rem;
       padding: 6px 12px;
       border-radius: 9999px;
-      background: rgba(37, 99, 235, 0.18);
-      color: #bfdbfe;
+      /* soft golden tint (brain yellow/orange) */
+      background: rgba(250, 191, 36, 0.18);
+      color: #fde68a;
       margin-bottom: 16px;
     }
 
@@ -102,13 +106,13 @@
       width: 8px;
       height: 8px;
       border-radius: 9999px;
-      background: #22c55e;
+      background: #22c55e; /* green from brain */
       box-shadow: 0 0 0 6px rgba(34, 197, 94, 0.25);
     }
 
     .message {
       font-size: 0.98rem;
-      color: #e5e7eb;
+      color: #f9fafb;
       margin-bottom: 28px;
       line-height: 1.7;
     }
@@ -116,7 +120,7 @@
     .contact-block {
       text-align: left;
       margin-top: 8px;
-      border-top: 1px solid rgba(148, 163, 184, 0.35);
+      border-top: 1px solid rgba(248, 250, 252, 0.25);
       padding-top: 20px;
       display: grid;
       gap: 16px;
@@ -132,7 +136,7 @@
       font-size: 0.95rem;
       font-weight: 600;
       margin-bottom: 6px;
-      color: #bfdbfe;
+      color: #e0e7ff;
       text-transform: uppercase;
       letter-spacing: 0.08em;
     }
@@ -140,15 +144,17 @@
     .contact-details p {
       font-size: 0.9rem;
       margin-bottom: 4px;
+      color: #e5e7eb;
     }
 
     .contact-label {
       font-weight: 600;
-      color: #cbd5f5;
+      color: #e0e7ff;
     }
 
     a {
-      color: #93c5fd;
+      /* warm accent from brain yellow/orange */
+      color: #fbbf24;
       text-decoration: none;
     }
 
@@ -159,7 +165,8 @@
     .footer-note {
       font-size: 0.78rem;
       margin-top: 18px;
-      color: #9ca3af;
+      color: #e5e7eb;
+      opacity: 0.9;
     }
   </style>
 </head>
