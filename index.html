@@ -345,11 +345,11 @@
 
 <p>
   <span class="contact-label"><span class="icon">📍</span>Map:</span>
-  <a href="https://www.google.com/maps/search/?api=1&query=233+Owashika+Road,+Convent+Dr,+James+Gitchuru+Road,+Lavington,+Nairobi"
-     target="_blank">
+  <a href="https://maps.app.goo.gl/ptLvE4SC9XGazHU66" target="_blank">
     Open in Google Maps
   </a>
 </p>
+
 
   <p class="footer-note" style="margin-top: 16px;">
     For urgent enquiries, please call or email us directly.  
@@ -375,7 +375,7 @@
     <span style="font-size: 2rem;">🧭</span>
 
     <!-- Your text here -->
-    <div class="map-loader-text" style="margin-top: 8px;">
+    <div id="mapLoader" class="map-loader-text" style="margin-top: 8px;">
       Loading Map to Al Shifaa…
     </div>
 
@@ -406,80 +406,111 @@
 
 <script>
   window.addEventListener("load", function () {
-    // How long the loader should show (in ms)
-    var duration = 3000; // <-- you can change this: 2000 = 2 seconds
+    var duration = 2000; // total loading time in ms (change this as you like)
 
-    var start = Date.now();
-    var loader = document.getElementById("mapLoader");
-    var iframe = document.getElementById("mapIframe");
-    var progressBar = document.getElementById("mapProgressBar");
-    var progressText = document.getElementById("mapProgressText");
+    var loaderStarted = false;
 
-    // EASING FUNCTIONS
-    function easeOutQuad(t) {
-      return 1 - (1 - t) * (1 - t);
+    function startMapLoader() {
+      if (loaderStarted) return; // ensure it only runs once
+      loaderStarted = true;
+
+      var start = Date.now();
+      var loader = document.getElementById("mapLoader");
+      var iframe = document.getElementById("mapIframe");
+      var progressBar = document.getElementById("mapProgressBar");
+      var progressText = document.getElementById("mapProgressText");
+
+      // ----- REALISTIC PROGRESS SHAPE -----
+      function easeOutQuad(t) {
+        return 1 - (1 - t) * (1 - t);
+      }
+
+      function easeInOutQuad(t) {
+        return t < 0.5
+          ? 2 * t * t
+          : 1 - Math.pow(-2 * t + 2, 2) / 2;
+      }
+
+      function getRealisticPercent(progress) {
+        if (progress < 0) progress = 0;
+        if (progress > 1) progress = 1;
+
+        var p;
+
+        if (progress < 0.3) {
+          // First 30% of time: fast jump 0 → 41
+          var local = progress / 0.3;
+          p = 0 + 41 * easeOutQuad(local);
+        } else if (progress < 0.8) {
+          // Next 50%: slower 41 → 72
+          var local = (progress - 0.3) / 0.5;
+          p = 41 + (72 - 41) * easeInOutQuad(local);
+        } else {
+          // Last 20%: faster 72 → 100
+          var local = (progress - 0.8) / 0.2;
+          p = 72 + (100 - 72) * easeOutQuad(local);
+        }
+
+        return Math.round(p);
+      }
+      // ----- END REALISTIC PROGRESS SHAPE -----
+
+      var timer = setInterval(function () {
+        var elapsed = Date.now() - start;
+        var linearProgress = elapsed / duration; // 0 → 1
+        var percent = getRealisticPercent(linearProgress);
+
+        if (percent > 100) percent = 100;
+
+        if (progressBar) {
+          progressBar.style.width = percent + "%";
+        }
+        if (progressText) {
+          progressText.textContent = percent + "%";
+        }
+
+        if (linearProgress >= 1) {
+          clearInterval(timer);
+        }
+      }, 60);
+
+      // After duration → hide loader & show map
+      setTimeout(function () {
+        if (loader) loader.classList.add("map-hidden");
+
+        if (iframe) {
+          iframe.style.opacity = "1";
+          iframe.style.pointerEvents = "auto";
+          iframe.classList.add("map-fade-in");
+        }
+      }, duration);
     }
 
-    function easeInOutQuad(t) {
-      return t < 0.5
-        ? 2 * t * t
-        : 1 - Math.pow(-2 * t + 2, 2) / 2;
+    // ----- SCROLL TRIGGER USING INTERSECTION OBSERVER -----
+    var section = document.getElementById("mapSection");
+
+    // Fallback: if no IntersectionObserver, just start immediately
+    if (!("IntersectionObserver" in window) || !section) {
+      startMapLoader();
+      return;
     }
 
-    // Map overall progress (0–1) into a "realistic" percent
-    function getRealisticPercent(progress) {
-      if (progress < 0) progress = 0;
-      if (progress > 1) progress = 1;
-
-      var p;
-
-      if (progress < 0.3) {
-        // First 30% of time: fast jump from 0 → 41
-        var local = progress / 0.3; // 0 → 1
-        p = 0 + 41 * easeOutQuad(local);
-      } else if (progress < 0.8) {
-        // Next 50% of time: slow 41 → 72
-        var local = (progress - 0.3) / 0.5; // 0 → 1
-        p = 41 + (72 - 41) * easeInOutQuad(local);
-      } else {
-        // Last 20% of time: faster 72 → 100
-        var local = (progress - 0.8) / 0.2; // 0 → 1
-        p = 72 + (100 - 72) * easeOutQuad(local);
+    var observer = new IntersectionObserver(
+      function (entries) {
+        entries.forEach(function (entry) {
+          // Start when at least 50% of the map section is visible
+          if (entry.isIntersecting && entry.intersectionRatio >= 0.5) {
+            startMapLoader();
+            observer.disconnect(); // stop watching after first trigger
+          }
+        });
+      },
+      {
+        threshold: 0.5 // 50% visible
       }
+    );
 
-      return Math.round(p);
-    }
-
-    // Update bar + percentage smoothly
-    var timer = setInterval(function () {
-      var elapsed = Date.now() - start;
-      var linearProgress = elapsed / duration; // 0 → 1
-      var percent = getRealisticPercent(linearProgress);
-
-      if (percent > 100) percent = 100;
-
-      if (progressBar) {
-        progressBar.style.width = percent + "%";
-      }
-      if (progressText) {
-        progressText.textContent = percent + "%";
-      }
-
-      if (linearProgress >= 1) {
-        clearInterval(timer);
-      }
-    }, 60); // how often to update (ms)
-
-    // After "duration" ms → hide loader + show map
-    setTimeout(function () {
-      if (loader) loader.classList.add("map-hidden");
-
-      if (iframe) {
-        iframe.style.opacity = "1";
-        iframe.style.pointerEvents = "auto";
-        iframe.classList.add("map-fade-in");
-      }
-    }, duration);
+    observer.observe(section);
   });
 </script>
 
