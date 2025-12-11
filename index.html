@@ -165,6 +165,27 @@
       color: #e5e7eb;
       opacity: 0.9;
     }
+
+.icon {
+  margin-right: 6px;
+  font-size: 1rem;
+  opacity: 0.9;
+}
+
+.map-container {
+  width: 100%;
+  border-radius: 16px;
+  overflow: hidden;
+  margin-top: 12px;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.25);
+}
+
+.map-container iframe {
+  width: 100%;
+  height: 250px;
+  border: 0;
+}
+
   </style>
 </head>
 <body>
@@ -199,31 +220,47 @@
       <div class="contact-details">
         <div class="contact-heading">Contact</div>
 
-        <p>
-          <span class="contact-label">Phone:</span>
-          <a href="tel:+254718937074">+254 718 937074</a>
-        </p>
+       <p>
+  <span class="contact-label"><span class="icon">📞</span>Phone:</span>
+  <a href="tel:+254718937074">+254 718 937074</a>
+</p>
 
-        <p>
-          <span class="contact-label">Email:</span>
-          <a href="mailto:serve@alshifaa.co.ke">serve@alshifaa.co.ke</a>
-        </p>
+<p>
+  <span class="contact-label"><span class="icon">✉️</span>Email:</span>
+  <a href="mailto:serve@alshifaa.co.ke">serve@alshifaa.co.ke</a>
+</p>
+
+<p>
+  <span class="contact-label"><span class="icon">📍</span>Map:</span>
+  <a href="https://www.google.com/maps/search/?api=1&query=233+Owashika+Road,+Convent+Dr,+James+Gitchuru+Road,+Lavington,+Nairobi"
+     target="_blank">
+    Open in Google Maps
+  </a>
+</p>
+
+  <p class="footer-note" style="margin-top: 16px;">
+    For urgent enquiries, please call or email us directly.  
+    <br>May you be granted ease, peace and healing.
+  </p>
       </div>
 
       <!-- RIGHT COLUMN -->
       <div class="contact-details">
-        <div class="contact-heading">Address</div>
+  <div class="contact-heading">Address</div>
 
-        <p>Al Shifaa Care Home Limited</p>
-        <p>233 Owashika Road, Convent Dr, James Gitchuru Road</p>
-        <p>Lavington, Nairobi, Kenya</p>
-      </div>
+  <p>Al Shifaa Care Home Limited</p>
+  <p>233 Owashika Road, Convent Dr, James Gitchuru Road</p>
+  <p>Lavington, Nairobi, Kenya</p>
 
-    </div>
-
-    <p class="footer-note">
-      For urgent enquiries, please call or email us directly. May you be granted ease, peace and healing.
-    </p>
+  <div class="map-container">
+    <iframe 
+      src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d1189.3741070144986!2d36.762702175567384!3d-1.2830603997103036!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x182f1bd3dd0fe4d1%3A0xe4737b8299bcbc9!2sAl%20Shifaa%20Care%20Home%20Limited!5e1!3m2!1sen!2ske!4v1765442638757!5m2!1sen!2ske" 
+      allowfullscreen="" 
+      loading="lazy" 
+      referrerpolicy="no-referrer-when-downgrade">
+    </iframe>
+  </div>
+</div>
 
   </div>
 </body>
