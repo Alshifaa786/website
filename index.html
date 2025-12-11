@@ -336,15 +336,35 @@
     allowfullscreen=""
     loading="lazy"
     referrerpolicy="no-referrer-when-downgrade"
-    style="display:none; border:0; width:100%; height:250px; border-radius:16px;">
+    style="opacity:0; pointer-events:none; border:0; width:100%; height:250px; border-radius:16px;">
   </iframe>
 
 </div>
 
   </div>
+
+<script>
+  window.addEventListener("load", function () {
+    // Map should begin loading immediately, hidden in background
+
+    // After 2 seconds fade loader out + show map
+    setTimeout(function () {
+      var loader = document.getElementById("mapLoader");
+      var iframe = document.getElementById("mapIframe");
+
+      if (loader) loader.classList.add("map-hidden");
+
+      if (iframe) {
+        iframe.style.opacity = "1";
+        iframe.style.pointerEvents = "auto";
+        iframe.classList.add("map-fade-in");
+      }
+    }, 1000);
+  });
+</script>
+
 </body>
 </html>
-
 
 
 
