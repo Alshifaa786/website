@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Al Shifaa Care Home Limited | Under Construction</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      color: #e5e7eb;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 16px;
+      position: relative;
+
+      /* Peaceful mental health background – replace with your image */
+      background-image: url("background.jpg");
+      background-size: cover;
+      background-position: center;
+      background-attachment: fixed;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      background: rgba(15, 23, 42, 0.65);
+      z-index: 0;
+    }
+
+    .card {
+      position: relative;
+      z-index: 1;
+      max-width: 720px;
+      width: 100%;
+      padding: 32px 24px;
+      border-radius: 24px;
+      background: rgba(15, 23, 42, 0.7);
+      backdrop-filter: blur(16px);
+      box-shadow: 0 24px 60px rgba(0, 0, 0, 0.45);
+      border: 1px solid rgba(148, 163, 184, 0.35);
+    }
+
+    .logo-placeholder {
+      width: 120px;
+      height: 120px;
+      margin: 0 auto 24px;
+      border-radius: 9999px;
+      border: 2px dashed rgba(148, 163, 184, 0.7);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: rgba(15, 23, 42, 0.8);
+      color: #cbd5f5;
+      font-size: 0.85rem;
+      padding: 8px;
+      overflow: hidden;
+    }
+
+    .logo-placeholder img {
+      max-width: 100%;
+      max-height: 100%;
+      display: block;
+      object-fit: contain;
+    }
+
+    h1 {
+      font-size: 1.8rem;
+      margin-bottom: 8px;
+      letter-spacing: 0.03em;
+    }
+
+    .tagline {
+      font-size: 0.95rem;
+      color: #cbd5f5;
+      margin-bottom: 24px;
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 0.8rem;
+      padding: 6px 12px;
+      border-radius: 9999px;
+      background: rgba(37, 99, 235, 0.18);
+      color: #bfdbfe;
+      margin-bottom: 16px;
+    }
+
+    .badge-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 9999px;
+      background: #22c55e;
+      box-shadow: 0 0 0 6px rgba(34, 197, 94, 0.25);
+    }
+
+    .message {
+      font-size: 0.98rem;
+      color: #e5e7eb;
+      margin-bottom: 28px;
+      line-height: 1.7;
+    }
+
+    .contact-block {
+      text-align: left;
+      margin-top: 8px;
+      border-top: 1px solid rgba(148, 163, 184, 0.35);
+      padding-top: 20px;
+      display: grid;
+      gap: 16px;
+    }
+
+    @media (min-width: 640px) {
+      .contact-block {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+    }
+
+    .contact-heading {
+      font-size: 0.95rem;
+      font-weight: 600;
+      margin-bottom: 6px;
+      color: #bfdbfe;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
+
+    .contact-details p {
+      font-size: 0.9rem;
+      margin-bottom: 4px;
+    }
+
+    .contact-label {
+      font-weight: 600;
+      color: #cbd5f5;
+    }
+
+    a {
+      color: #93c5fd;
+      text-decoration: none;
+    }
+
+    a:hover {
+      text-decoration: underline;
+    }
+
+    .footer-note {
+      font-size: 0.78rem;
+      margin-top: 18px;
+      color: #9ca3af;
+    }
+  </style>
+</head>
+<body>
+  <div class="card">
+
+    <!-- LOGO UPDATED -->
+    <div class="logo-placeholder">
+      <img src="al-shifaa-logo.png" alt="Al Shifaa Care Home Limited Logo">
+    </div>
+
+    <div class="badge">
+      <span class="badge-dot"></span>
+      <span>Website Under Construction</span>
+    </div>
+
+    <h1>Al Shifaa Care Home Limited</h1>
+    <p class="tagline">A peaceful space for compassionate mental health care.</p>
+
+    <p class="message">
+      Our full website is being prepared with care to reflect the calm, dignity and support
+      we aim to offer every resident and family. In the meantime, you can reach us using the
+      contact details below. We look forward to connecting with you.
+    </p>
+
+    <div class="contact-block">
+      <div class="contact-details">
+        <div class="contact-heading">Contact</div>
+        <p>
+          <span class="contact-label">Phone:</span>
+          <a href="tel:+254700000000">+254 700 000 000</a>
+        </p>
+        <p>
+          <span class="contact-label">Email:</span>
+          <a href="mailto:info@alshifaacarehome.com">info@alshifaacarehome.com</a>
+        </p>
+      </div>
+
+      <div class="contact-details">
+        <div class="contact-heading">Address</div>
+        <p>Al Shifaa Care Home Limited</p>
+        <p>Nairobi, Kenya</p>
+        <p>(Add full street / area here)</p>
+      </div>
+    </div>
+
+    <p class="footer-note">
+      For urgent enquiries, please call or email us directly. May you be granted ease, peace and healing.
+    </p>
+  </div>
+</body>
+</html>
