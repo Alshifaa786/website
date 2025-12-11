@@ -236,6 +236,49 @@
   from { opacity: 0; transform: scale(0.98); }
   to { opacity: 1; transform: scale(1); }
 }
+
+/* Inside the map loader */
+.map-loader-inner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+}
+
+/* Text under compass */
+.map-loader-text {
+  color: #334155;
+  font-weight: 500;
+  font-size: 0.95rem;
+  text-align: center;
+}
+
+/* Progress bar container */
+.map-progress {
+  width: 100%;
+  max-width: 220px;
+  height: 6px;
+  border-radius: 9999px;
+  background: rgba(255, 255, 255, 0.7);
+  overflow: hidden;
+  margin-top: 8px;
+}
+
+/* Actual bar that fills */
+.map-progress-bar {
+  height: 100%;
+  width: 0%;
+  border-radius: inherit;
+  background: linear-gradient(90deg, #22c55e, #fbbf24);
+  transition: width 0.1s linear;
+}
+
+/* Percentage text */
+.map-progress-text {
+  margin-top: 4px;
+  font-size: 0.8rem;
+  color: #475569;
+}
     
   </style>
 
@@ -325,9 +368,27 @@
   <div class="map-container">
 
   <!-- Loader (shows for 2 seconds) -->
-  <div id="mapLoader" class="map-loader">
-    Loading map…
+<div id="mapLoader" class="map-loader">
+  <div class="map-loader-inner">
+
+    <!-- Compass icon (same as yours) -->
+    <span style="font-size: 2rem;">🧭</span>
+
+    <!-- Your text here -->
+    <div class="map-loader-text" style="margin-top: 8px;">
+      Loading Map to Al Shifaa…
+    </div>
+
+    <!-- Progress bar -->
+    <div class="map-progress">
+      <div class="map-progress-bar" id="mapProgressBar"></div>
+    </div>
+
+    <!-- Percentage text -->
+    <div class="map-progress-text" id="mapProgressText">0%</div>
+
   </div>
+</div>
 
   <!-- Actual Map (hidden initially) -->
   <iframe 
@@ -345,13 +406,72 @@
 
 <script>
   window.addEventListener("load", function () {
-    // Map should begin loading immediately, hidden in background
+    // How long the loader should show (in ms)
+    var duration = 3000; // <-- you can change this: 2000 = 2 seconds
 
-    // After 2 seconds fade loader out + show map
+    var start = Date.now();
+    var loader = document.getElementById("mapLoader");
+    var iframe = document.getElementById("mapIframe");
+    var progressBar = document.getElementById("mapProgressBar");
+    var progressText = document.getElementById("mapProgressText");
+
+    // EASING FUNCTIONS
+    function easeOutQuad(t) {
+      return 1 - (1 - t) * (1 - t);
+    }
+
+    function easeInOutQuad(t) {
+      return t < 0.5
+        ? 2 * t * t
+        : 1 - Math.pow(-2 * t + 2, 2) / 2;
+    }
+
+    // Map overall progress (0–1) into a "realistic" percent
+    function getRealisticPercent(progress) {
+      if (progress < 0) progress = 0;
+      if (progress > 1) progress = 1;
+
+      var p;
+
+      if (progress < 0.3) {
+        // First 30% of time: fast jump from 0 → 41
+        var local = progress / 0.3; // 0 → 1
+        p = 0 + 41 * easeOutQuad(local);
+      } else if (progress < 0.8) {
+        // Next 50% of time: slow 41 → 72
+        var local = (progress - 0.3) / 0.5; // 0 → 1
+        p = 41 + (72 - 41) * easeInOutQuad(local);
+      } else {
+        // Last 20% of time: faster 72 → 100
+        var local = (progress - 0.8) / 0.2; // 0 → 1
+        p = 72 + (100 - 72) * easeOutQuad(local);
+      }
+
+      return Math.round(p);
+    }
+
+    // Update bar + percentage smoothly
+    var timer = setInterval(function () {
+      var elapsed = Date.now() - start;
+      var linearProgress = elapsed / duration; // 0 → 1
+      var percent = getRealisticPercent(linearProgress);
+
+      if (percent > 100) percent = 100;
+
+      if (progressBar) {
+        progressBar.style.width = percent + "%";
+      }
+      if (progressText) {
+        progressText.textContent = percent + "%";
+      }
+
+      if (linearProgress >= 1) {
+        clearInterval(timer);
+      }
+    }, 60); // how often to update (ms)
+
+    // After "duration" ms → hide loader + show map
     setTimeout(function () {
-      var loader = document.getElementById("mapLoader");
-      var iframe = document.getElementById("mapIframe");
-
       if (loader) loader.classList.add("map-hidden");
 
       if (iframe) {
@@ -359,7 +479,7 @@
         iframe.style.pointerEvents = "auto";
         iframe.classList.add("map-fade-in");
       }
-    }, 1000);
+    }, duration);
   });
 </script>
 
