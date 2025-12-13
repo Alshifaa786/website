@@ -279,7 +279,170 @@
   font-size: 0.8rem;
   color: #475569;
 }
-    
+
+/* ===== PRELOADER OVERLAY ===== */
+.preloader {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+
+  /* classy dark glass */
+  background: rgba(10, 20, 55, 0.92);
+  backdrop-filter: blur(14px);
+}
+
+.preloader-inner {
+  width: min(520px, 92vw);
+  padding: 28px 18px;
+}
+
+.preloader-logo-wrap {
+  width: 140px;
+  height: 140px;
+  border-radius: 50%;
+  background: #ffffff;
+  margin: 0 auto 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+
+  /* elegant entrance */
+  opacity: 0;
+  transform: translateY(10px) scale(0.96);
+  animation: preLogoIn 900ms cubic-bezier(.2,.8,.2,1) forwards;
+}
+
+.preloader-logo-wrap img {
+  width: 88%;
+  height: 88%;
+  object-fit: contain;
+}
+
+@keyframes preLogoIn {
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+/* Name */
+.preloader-title {
+  margin-top: 10px;
+  font-size: 1.15rem;
+  font-weight: 650;
+  color: #ffffff;
+  letter-spacing: 0.02em;
+  opacity: 0;
+  transform: translateY(8px);
+  animation: preTextIn 700ms ease forwards;
+  animation-delay: 250ms;
+}
+
+@keyframes preTextIn {
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Typewriter tagline */
+/* ===== Letter-by-letter elegant settle (NO FLASH) ===== */
+.preloader-tagline {
+  margin: 10px auto 18px;
+  color: #e0e7ff;
+  font-size: 0.98rem;
+  line-height: 1.5;
+  text-align: center;
+
+  visibility: hidden; /* IMPORTANT: prevent initial flash */
+}
+
+/* When JS is ready */
+.preloader-tagline.is-ready {
+  visibility: visible;
+}
+
+/* Each letter */
+.preloader-tagline span {
+  display: inline-block;
+  opacity: 0;
+  transform: translateY(-8px);
+  filter: blur(1px);
+
+  animation: letterSettle 700ms cubic-bezier(0.25, 0.8, 0.25, 1) forwards;
+  animation-delay: calc(var(--i) * 26ms + 600ms);
+}
+
+@keyframes letterSettle {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+    filter: blur(0);
+  }
+}
+
+
+/* macOS-style spinner */
+.preloader-spinner {
+  width: 28px;
+  height: 28px;
+  margin: 0 auto;
+  border-radius: 50%;
+  border: 3px solid rgba(255, 255, 255, 0.22);
+  border-top-color: rgba(255, 255, 255, 0.92);
+  animation: spin 900ms linear infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+/* Hide transition */
+.preloader--hide {
+  animation: preFadeOut 420ms ease forwards;
+}
+
+@keyframes preFadeOut {
+  to { opacity: 0; visibility: hidden; }
+}
+
+/* ===== GUARANTEED VISIBLE SHINE (TEST) ===== */
+.preloader-logo-wrap {
+  position: relative;
+  overflow: hidden;
+}
+
+.preloader-logo-wrap img {
+  position: relative;
+  z-index: 1;
+}
+
+.preloader-logo-wrap::after {
+  content: "";
+  position: absolute;
+  inset: -50%;
+  z-index: 2;
+  pointer-events: none;
+
+  background: linear-gradient(
+    120deg,
+    rgba(255,255,255,0) 30%,
+    rgba(255,255,255,0.9) 50%,
+    rgba(255,255,255,0) 70%
+  );
+
+  transform: translateX(-120%);
+  animation: logoShineONCE 1.2s ease-out forwards;
+animation-delay: 1s;
+}
+
+
+
+@keyframes logoShineONCE {
+  from { transform: translateX(-120%); }
+  to   { transform: translateX(120%); }
+}
+
+
   </style>
 
   <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
@@ -302,6 +465,22 @@
   
 </head>
 <body>
+
+<!-- ===== PRELOADER ===== -->
+<div id="pagePreloader" class="preloader" aria-label="Loading">
+  <div class="preloader-inner">
+    <div class="preloader-logo-wrap">
+      <img src="al-shifaa-logo.png" alt="Al Shifaa Care Home Limited Logo">
+    </div>
+
+    <div class="preloader-title">Al Shifaa Care Home Limited</div>
+
+    <div class="preloader-tagline">A peaceful space for compassionate mental health care.</div>
+
+    <div class="preloader-spinner" aria-hidden="true"></div>
+  </div>
+</div>
+
   <div class="card">
 
     <!-- LOGO -->
@@ -375,7 +554,7 @@
     <span style="font-size: 2rem;">🧭</span>
 
     <!-- Your text here -->
-    <div id="mapLoader" class="map-loader-text" style="margin-top: 8px;">
+    <div class="map-loader-text" style="margin-top: 8px;">
       Loading Map to Al Shifaa…
     </div>
 
@@ -403,9 +582,29 @@
 </div>
 
   </div>
+<script>
+  // Controls how long the preloader stays (ms)
+  window.PRELOADER_DURATION = 2700;
+
+  window.addEventListener("load", function () {
+    var pre = document.getElementById("pagePreloader");
+
+    setTimeout(function () {
+      if (pre) pre.classList.add("preloader--hide");
+
+      // remove from DOM after fade-out and signal that preloader is done
+      setTimeout(function () {
+        if (pre && pre.parentNode) pre.parentNode.removeChild(pre);
+
+        // Signal to anything waiting (like the map loader script)
+        window.dispatchEvent(new Event("preloader:done"));
+      }, 450);
+    }, window.PRELOADER_DURATION);
+  });
+</script>
 
 <script>
-  window.addEventListener("load", function () {
+  window.addEventListener("preloader:done", function () {
     var duration = 3000; // total loading time in ms (change this as you like)
 
     var loaderStarted = false;
@@ -514,11 +713,28 @@
   });
 </script>
 
+<script>
+  window.addEventListener("DOMContentLoaded", function () {
+    var el = document.querySelector(".preloader-tagline");
+    if (!el) return;
+
+    var text = el.textContent;
+    el.setAttribute("aria-label", text);
+
+    // Clear and rebuild as spans BEFORE showing
+    el.textContent = "";
+
+    for (var i = 0; i < text.length; i++) {
+      var span = document.createElement("span");
+      span.style.setProperty("--i", i);
+      span.innerHTML = (text[i] === " ") ? "&nbsp;" : text[i];
+      el.appendChild(span);
+    }
+
+    // Now reveal (no flash)
+    el.classList.add("is-ready");
+  });
+</script>
+
 </body>
 </html>
-
-
-
-
-
-
